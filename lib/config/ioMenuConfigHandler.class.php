@@ -174,7 +174,6 @@ class ioMenuConfigHandler extends sfYamlConfigHandler
     $config = $this->context->getConfiguration();
     $routing = $this->context->getRouting();
     $routeName = $item['route'];
-    $routeName  = str_replace('@', '', $routeName);
     $routeName = self::replaceConstants($routeName);
     $item['route'] = $routeName;
 
@@ -188,6 +187,8 @@ class ioMenuConfigHandler extends sfYamlConfigHandler
     }
     else
     {
+      $routeName  = str_replace('@', '', $routeName);
+      
       if(strpos($routeName, '?'))
       {
         $routeName = substr($routeName, 0, strpos($routeName, '?') ? strpos($routeName, '?') : strlen($routeName));
