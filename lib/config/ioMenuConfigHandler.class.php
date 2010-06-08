@@ -83,6 +83,11 @@ class ioMenuConfigHandler extends sfYamlConfigHandler
   {
     $this->menus[$name] = $menu;
 
+    if(!isset($menu['name']))
+    {
+      $menu['name'] = $name;
+    }
+
     array_walk($menu['children'], array($this,'parseItem'));
 
     $this->buffer .= '$'.$name.' = '.var_export($menu,true).';';
