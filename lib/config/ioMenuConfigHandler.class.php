@@ -98,12 +98,17 @@ class ioMenuConfigHandler extends sfYamlConfigHandler
    * 
    * @todo too many parameters
    */
-  protected function parseItem(&$data)
+  protected function parseItem(&$data, $key)
   {
     if(isset($data['route']))
     {
       //inject security.yml here
       $this->setSecuritySettingsForItem($data);
+    }
+
+    if(!isset($data['name']))
+    {
+      $data['name'] = $key;
     }
 
     if(isset($data['children']) && is_array($data['children']) && !empty($data['children']))
