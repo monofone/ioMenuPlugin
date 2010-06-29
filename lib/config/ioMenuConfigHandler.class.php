@@ -140,7 +140,7 @@ class ioMenuConfigHandler extends sfYamlConfigHandler
    */
   protected function getSecurityConfigForRoute(sfRoute $route)
   {
-    $route_defaults = $route->getDefaultParameters();
+    $route_defaults = $route->getDefaults() ? $route->getDefaults() : $route->getDefaultParameters();
     $module = $route_defaults['module'];
     $config = $this->context->getConfiguration();
     $finder = new sfFinder();
