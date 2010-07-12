@@ -383,6 +383,43 @@ class ioMenuItem implements ArrayAccess, Countable, IteratorAggregate
     return isset($this->_children[$name]) ? $this->_children[$name] : null;
   }
 
+  public function findNode($name)
+  {
+    $root = $this->getRoot();
+
+    $node = $this->scanForNodeRecursivly($root, $name);
+
+    if($node)
+    {
+      return $node;
+    }
+    else
+    {
+      throw new Exception('Menu Item not found, anchor was "'.$name.'"!');
+    }
+  }
+
+  protected function scanForNodeRecursivly(ioMenuItem $node, $name)
+  {
+    foreach((array) $node->getChildren() as $item)
+    {
+      if($item->getName() == $name)
+      {
+        return $item;
+      }
+      
+      if(count($item->getChildren()))
+      {
+        $child = $this->scanForNodeRecursivly($item, $name);
+        
+        if($child)
+        {
+          return $child;
+        }
+      }
+    }
+  }
+
   /**
    * Returns whether or not the given/current user has permission to
    * view this current menu item.
