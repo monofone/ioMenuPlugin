@@ -1047,7 +1047,34 @@ class ioMenuItem implements ArrayAccess, Countable, IteratorAggregate
       $this->_isCurrent = ($this->getUri(array('absolute' => true)) == $url);
     }
 
+    //check if its the same module
+    if(!$this->_isCurrent)
+    {
+      $this->_isCurrent = $this->checkForCurrentModule();
+    }
+
     return $this->_isCurrent;
+  }
+
+  protected function checkForCurrentModule()
+  {
+    $routes = sfContext::getInstance()->getRouting()->getRoutes();
+    $currentRoute = str_replace('@', '', sfContext::getInstance()->getRouting()->getCurrentInternalUri(true));
+    $route = str_replace('@', '', $this->getRoute());
+    $currentRoute = strpos($currentRoute, '?') ? substr($currentRoute, 0, strpos($currentRoute,'?')) : $currentRoute;
+
+    if(isset($routes[$route]) && isset($routes[$currentRoute]))
+    {
+      $currentDefaults = $routes[$currentRoute]->getDefaults();
+      $routeDefaults = $routes[$route]->getDefaults();
+
+      if($currentDefaults['module'] == $routeDefaults['module'])
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
