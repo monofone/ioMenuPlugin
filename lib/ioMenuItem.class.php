@@ -1068,7 +1068,7 @@ class ioMenuItem implements ArrayAccess, Countable, IteratorAggregate
       $currentDefaults = $routes[$currentRoute]->getDefaults();
       $routeDefaults = $routes[$route]->getDefaults();
 
-      if($currentDefaults['module'] == $routeDefaults['module'])
+      if(isset($currentDefaults['module']) && $currentDefaults['module'] == $routeDefaults['module'])
       {
         return true;
       }
